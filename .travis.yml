@@ -12,7 +12,7 @@ after_success:
     - docker build -t 08072001vvb/multi-nginx ./nginx
     - docker build -t 08072001vvb/multi-server ./server
     - docker build -t 08072001vvb/multi-worker ./worker
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin docker.io
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     - docker push 08072001vvb/multi-client
     - docker push 08072001vvb/multi-nginx
     - docker push 08072001vvb/multi-server
