@@ -1,0 +1,19 @@
+services:
+    - docker
+
+before_install:
+    - docker build -t 08072001vvb/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true 08072001vvb/react-test npm test -- --coverage
+
+after_success:
+    - docker build 08072001vvb/multi-client ./client
+    - docker build 08072001vvb/multi-nginx ./nginx
+    - docker build 08072001vvb/multi-server ./server
+    - docker build 08072001vvb/multi-worker ./worker
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push 08072001vvb/multi-client
+    - docker push 08072001vvb/multi-nginx
+    - docker push 08072001vvb/multi-server
+    - docker push 08072001vvb/multi-worker
